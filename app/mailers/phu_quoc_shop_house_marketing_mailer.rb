@@ -1,5 +1,5 @@
 class PhuQuocShopHouseMarketingMailer < ApplicationMailer
-  default from: 'vinpearl.gw@gmail.com'
+  default from: 'grandworld@gadetrungvang.com'
 
   def sent_marketing_email(user, subject, text_data)
     @user = user
