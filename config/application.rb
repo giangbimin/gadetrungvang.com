@@ -15,5 +15,16 @@ module Gadetrungvang
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('marketing_campaigns')
+    config.action_mailer.smtp_settings = {
+      user_name: 'xjaokjng',
+      password: 'Giang@123456',
+      domain: 'https://gadetrungvang.com',
+      address: 'smtp.sendgrid.net',
+      port: 587,
+      authentication: :plain,
+      enable_starttls_auto: true
+    }
   end
 end
