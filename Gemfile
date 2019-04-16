@@ -41,12 +41,13 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 gem 'smtpapi'
 gem 'sendgrid-ruby'
 gem 'email_verifier'
+gem 'delayed_job', '~> 4.1', '>= 4.1.5'
+gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -36,12 +36,35 @@ class PhuQuocShopHouse
   '.freeze
   include Base
 
-  def sent_user_marketing_email_by_user(from_id = 1, to_id = 50_000)
+  def sent_user_marketing_email_by_user
     @campaign_name = PhuQuocShopHouse::CAMPAGN_NAME
     @text_content = PhuQuocShopHouse::TEXT_PLAN
-    @users = User.where('id > ?', from_id).where('id < ?', to_id) if @users.blank?
     @users.each do |user|
-      PhuQuocShopHouseMarketingMailer.sent_marketing_email(user, @campaign_name, @text_content).deliver_now
+      PhuQuocShopHouseMarketingMailer.sent_marketing_email(user.email, user.id, @campaign_name, @text_content).deliver_now
+    end
+  end
+
+  def self.send_marketing_email_with_data_from_csv(from_line, to_line)
+    campaign_name = PhuQuocShopHouse::CAMPAGN_NAME
+    text_content = PhuQuocShopHouse::TEXT_PLAN
+    file_name = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
+    count = 0
+    CSV.foreach(file_name, headers: true) do |row|
+      count += 1
+      next if count < from_line || count > to_line
+      to_email = row['email'].to_s
+      begin
+        email_verified = EmailVerifier.check(to_email)
+        if email_verified
+          PhuQuocShopHouseMarketingMailer.sent_marketing_email(to_email, count, campaign_name, text_content).deliver_late
+        else
+          next
+        end
+        retry_times -= 1
+      rescue
+        retry if retry_times > 0
+        next
+      end
     end
   end
 end
