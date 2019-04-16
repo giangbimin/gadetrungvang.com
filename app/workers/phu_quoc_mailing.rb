@@ -3,7 +3,7 @@ class PhuQuocMailing
 
   def perform(from_line, to_line)
     return if users.blank?
-    destroy_jobs(from_line, to_line)
+    # destroy_jobs(from_line, to_line)
     PhuQuocShopHouse.send_marketing_email_with_data_from_csv(from_line, to_line)
   end
 

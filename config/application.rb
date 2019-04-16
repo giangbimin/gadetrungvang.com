@@ -17,6 +17,7 @@ module Gadetrungvang
     # the framework and any gems in your application.
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('marketing_campaigns')
+    config.autoload_paths << Rails.root.join('workers')
     # Action mailer settings.
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
