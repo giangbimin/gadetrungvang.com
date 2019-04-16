@@ -17,14 +17,29 @@ module Gadetrungvang
     # the framework and any gems in your application.
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('marketing_campaigns')
+    # Action mailer settings.
+    config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      user_name: 'xjaokjng',
-      password: 'Giang@123456',
-      domain: 'https://gadetrungvang.com',
-      address: 'smtp.sendgrid.net',
-      port: 587,
-      authentication: :plain,
-      enable_starttls_auto: true
+      address: ENV['SENDGRID_SMTP_ADDRESS'],
+      port: ENV['SENDGRID_SMTP_PORT'].to_i,
+      enable_starttls_auto: ENV['SENDGRID_SMTP_ENABLE_STARTTLS_AUTO'] == 'true',
+      user_name: ENV['SENDGRID_USERNAME'],
+      password: ENV['SENDGRID_API_KEY'],
+      authentication: ENV['SENDGRID_SMTP_AUTH'],
+      domain: ENV['SENDGRID_SMTP_DOMAIN']
     }
+
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.perform_deliveries = true
+
+    # Set Redis as the back-end for the cache.
+    config.cache_store = :redis_store, ENV['REDIS_CACHE_URL']
+
+    # Set Sidekiq as the back-end for Active Job.
+    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_name_prefix =
+      "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{Rails.env}"
+    # Action Cable setting to de-couple it from the main Rails process.
+    config.action_cable.url = ENV['ACTION_CABLE_FRONTEND_URL']
   end
 end

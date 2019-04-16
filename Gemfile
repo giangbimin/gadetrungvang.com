@@ -6,7 +6,15 @@ ruby '2.5.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
+
+gem 'pg', '~> 1.0'
+gem 'redis', '~> 4.0', '>= 4.0.1'
+gem 'redis-rails', '~> 5.0'
+gem 'redis-namespace', '~> 1.6'
+gem 'clockwork', '~> 2.0', '>= 2.0.3'
+
+gem 'sidekiq', '~> 5.1'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -33,13 +41,16 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 gem 'smtpapi'
 gem 'sendgrid-ruby'
+gem 'email_verifier'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'dotenv-rails', '~> 2.1', '>= 2.1.1', require: true
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
