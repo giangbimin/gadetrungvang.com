@@ -61,7 +61,7 @@ class PhuQuocShopHouse
       begin
         email_verified = EmailVerifier.check(to_email)
         if email_verified
-          PhuQuocShopHouseMarketingMailer.sent_marketing_email(to_email, count, campaign_name, text_content).deliver_late
+          PhuQuocShopHouseMarketingMailer.sent_marketing_email(to_email, count, campaign_name, text_content).deliver_now
         else
           next
         end
