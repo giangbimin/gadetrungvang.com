@@ -1,4 +1,4 @@
-class PhuQuocMailing
+class PhuQuocMailingWorker
   include Sidekiq::Worker
 
   def perform(from_line, to_line)
