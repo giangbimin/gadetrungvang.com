@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
-  rescue_from Rack::Timeout::RequestTimeoutException do
-    render_error_response('server_timeout')
-  end
-
   rescue_from ArgumentError do |error|
     render_error_response(error.message, :unprocessable_entity)
   end
