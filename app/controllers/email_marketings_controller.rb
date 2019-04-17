@@ -1,4 +1,4 @@
-class EmailMarketingController < ApiController
+class EmailMarketingsController < ApiController
   def send_email
     part = params[:part].to_i
     part = 1 if part < 1
