@@ -51,11 +51,11 @@ class PhuQuocShopHouse
     count = 0
     CSV.foreach(file_name, headers: true) do |row|
       count += 1
+      next if count < from_line || count > to_line
       puts 'exec line'
       puts '>>>>>>'
       puts count
       puts '>>>>>>'
-      next if count < from_line || count > to_line
       to_email = row['email'].to_s
       retry_times = 2
       begin
