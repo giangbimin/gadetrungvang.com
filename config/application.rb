@@ -21,13 +21,13 @@ module Gadetrungvang
     # Action mailer settings.
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address: ENV['SENDGRID_SMTP_ADDRESS'],
-      port: ENV['SENDGRID_SMTP_PORT'].to_i,
-      enable_starttls_auto: ENV['SENDGRID_SMTP_ENABLE_STARTTLS_AUTO'] == 'true',
-      user_name: ENV['SENDGRID_USERNAME'],
-      password: ENV['SENDGRID_API_KEY'],
-      authentication: ENV['SENDGRID_SMTP_AUTH'],
-      domain: ENV['SENDGRID_SMTP_DOMAIN']
+      address: ENV['AWS_SES_SMTP_ADDRESS'],
+      port: ENV['AWS_SES_SMTP_PORT'].to_i,
+      enable_starttls_auto: ENV['AWS_SES_SMTP_ENABLE_STARTTLS_AUTO'] == 'true',
+      user_name: ENV['AWS_SES_NAME'],
+      password: ENV['AWS_SES_KEY'],
+      authentication: ENV['AWS_SES_SMTP_AUTH'],
+      domain: ENV['AWS_SES_SMTP_DOMAIN']
     }
 
     config.action_mailer.raise_delivery_errors = true

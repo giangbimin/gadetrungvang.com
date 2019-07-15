@@ -1,2 +1,2 @@
-web: bin/rails server -p $PORT -e $RAILS_ENV
+web: bundle exec passenger start
 pokemonworker: bundle exec sidekiq -C config/sidekiq.yml
