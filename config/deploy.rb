@@ -1,4 +1,4 @@
-set :application, "deploy"
+set :application, "gadetrungvang.com"
 set :repo_url, "git@github.com:giangbimin/gadetrungvang.com.git"
 
 # Deploy to the user's home directory
