@@ -3,12 +3,12 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-
+set :application, 'deploy'
 set :repository, 'git@github.com:giangbimin/gadetrungvang.com.git'
 set :user, 'deploy'
-set :deploy_to, '/home/deploy/deploy'
+set :deploy_to, "/home/deploy/#{fetch :application}"
 set :branch, 'master'
-set :rails_env, 'production'  # Môi trường
+set :rails_env, 'production' # Môi trường
 set :domain, 'gadetrungvang.com'
 # set :forward_agent, true
 # set :port, '22'
@@ -25,7 +25,6 @@ set :shared_paths, [
 task :environment do
   invoke :'rbenv:load'
 end
-
 
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
@@ -52,20 +51,15 @@ task deploy: :environment do
     invoke :'deploy:cleanup'
 
     to :launch do
-      invoke :'passenger:restart'
       queue %{
           echo "Export ENV KEY"
-          #{echo_cmd %[export FACEBOOK_APP_ID=xxxxxxx]}
-          #{echo_cmd %[export FACEBOOK_SECRET=xxx]}        
-          #{echo_cmd %[export SECRET_KEY_BASE=xxx]}
       }
-      queue %{
-        #{echo_cmd %[cd "#{deploy_to}/#{current_path}"]}
-        echo "Running export i18n:js"
-        #{echo_cmd %[RAILS_ENV=production bundle exec rake i18n:js:export]}
-        echo "Running UNICORN"
-        #{echo_cmd %[RAILS_ENV=production bundle exec unicorn_rails -c config/unicorn.rb -D]}
-      }
+      # queue %{
+      #   #{echo_cmd %[cd "#{deploy_to}/#{current_path}"]}
+      #   echo "Running export i18n:js"
+      #   #{echo_cmd %[RAILS_ENV=production bundle exec rake i18n:js:export]}
+      # }
+      invoke :'passenger:restart'
     end
   end
 end
