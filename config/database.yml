@@ -1,9 +1,9 @@
 ---
 development:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
+  url: <%= "postgresql://deploy:deploy@127.0.0.1/gadetrungvang?encoding=utf8&pool=5&timeout=5000".gsub('?', '_development?') %>
 
 test:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
+  url: <%= "postgresql://deploy:deploy@127.0.0.1/gadetrungvang?encoding=utf8&pool=5&timeout=5000".gsub('?', '_test?') %>
 
 production:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_production?') %>
+  url: <%= "postgresql://deploy:deploy@127.0.0.1/gadetrungvang?encoding=utf8&pool=5&timeout=5000".gsub('?', '_production?') %>
