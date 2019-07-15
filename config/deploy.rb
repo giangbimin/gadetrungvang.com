@@ -7,11 +7,11 @@ require 'mina/rbenv'
 set :application, 'deploy'
 set :domain, '52.221.203.224'
 set :deploy_to, '/home/deploy/#{fetch :application'
-set :repository, 'git@github.com:giangbimin/gadetrungvang.com.git'
-set :user, 'deloy'
+set :repository, 'https://github.com/giangbimin/gadetrungvang.com.git'
+set :user, 'deploy'
 set :branch, 'master'
-set :term_mode, nil
-#   set :forward_agent, true     # SSH forward_agent.
+# set :term_mode, nil
+# set :forward_agent, true     # SSH forward_agent.
 
 set :shared_paths, [
   'config/database.yml',
