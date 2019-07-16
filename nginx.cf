@@ -3,7 +3,7 @@ server {
   listen [::]:80;
 
   server_name _;
-  root /home/deploy/gadetrungvang.com/public;
+  root /home/deploy/gadetrungvang.com/current/public;
 
   passenger_enabled on;
   passenger_app_env production;
