@@ -19,6 +19,7 @@ module Gadetrungvang
     # the framework and any gems in your application.
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('marketing_campaigns')
+    config.autoload_paths << Rails.root.join('services')
     config.autoload_paths << Rails.root.join('workers')
     # Action mailer settings.
     config.action_mailer.delivery_method = :smtp
@@ -36,7 +37,7 @@ module Gadetrungvang
     config.action_mailer.perform_deliveries = true
 
     # Set Redis as the back-end for the cache.
-    config.cache_store = :redis_store, ENV['REDIS_CACHE_URL']
+    config.cache_store = :redis_store, ENV['REDIS_CACHE_URL'], {expires_in: 30.days}
 
     # Set Sidekiq as the back-end for Active Job.
     config.active_job.queue_adapter = :sidekiq

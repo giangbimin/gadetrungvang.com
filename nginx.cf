@@ -6,7 +6,9 @@ server {
   root /home/deploy/gadetrungvang.com/current/public;
 
   passenger_enabled on;
+  rails_env production;
   passenger_app_env production;
+  passenger_app_root /home/deploy/gadetrungvang.com;
 
   location /cable {
     passenger_app_group_name gadetrungvang_websocket;
@@ -21,3 +23,5 @@ server {
     gzip_static on;
   }
 }
+
+sudo ln -s /etc/nginx/sites-enabled/gadetrungvang.com /etc/nginx/sites-available/gadetrungvang.com 

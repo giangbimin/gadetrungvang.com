@@ -36,14 +36,6 @@ class PhuQuocShopHouse
   '.freeze
   include Base
 
-  def sent_user_marketing_email_by_user
-    @campaign_name = PhuQuocShopHouse::CAMPAGN_NAME
-    @text_content = PhuQuocShopHouse::TEXT_PLAN
-    @users.each do |user|
-      PhuQuocShopHouseMarketingMailer.sent_marketing_email(user.email, user.id, @campaign_name, @text_content).deliver_now
-    end
-  end
-
   def self.send_marketing_email_with_data_from_csv(from_line, to_line)
     campaign_name = PhuQuocShopHouse::CAMPAGN_NAME
     text_content = PhuQuocShopHouse::TEXT_PLAN
