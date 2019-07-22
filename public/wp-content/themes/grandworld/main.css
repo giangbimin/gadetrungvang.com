@@ -1,0 +1,77 @@
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}  
+#boxes .window {
+  position:absolute;
+  left:0;
+  top:0;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9999;
+  padding:20px;
+  border-radius: 15px;
+  text-align: center;
+}
+.wpforms-submit-container{
+  text-align: center!important;
+}
+.wpforms-exit{
+  background: #c54444 !important;
+  cursor: pointer!important;;
+  font-size: 16px !important;
+  color: #ffffff !important;
+  text-transform: uppercase!important;;
+  font-weight: bold;
+  font-family: "SFU Angie",sans-serif !important;
+  padding: 17px 30px !important;
+  border-radius: 20px!important;;
+  border: none!important;
+  margin-left: 30px!important;
+}
+#boxes #dialog {
+  margin-top: 13%;
+  width:600px; 
+  height:auto;
+  padding:10px;
+  background-color:#ffffff;
+  font-family: 'Segoe UI Light', sans-serif;
+  font-size: 15pt;
+}
+.maintext{
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  text-decoration: none;
+}
+body{
+  background: url('bg.jpg');
+}
+#lorem{
+  font-family: "Segoe UI", sans-serif;
+  font-size: 12pt;
+  text-align: left;
+}
+#popupfoot{
+  font-family: "Segoe UI", sans-serif;
+  font-size: 16pt;
+  padding: 10px 20px;
+}
+#popupfoot a{
+  text-decoration: none;
+}
+.agree:hover{
+  background-color: #D1D1D1;
+}
+.popupoption:hover{
+  background-color:#D1D1D1;
+  color: green;
+}
+.popupoption2:hover{
+  
+  color: red;
+}
