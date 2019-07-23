@@ -1,0 +1,29 @@
+<%= flash[:notice] %>
+<% columns = %w(gender job_position birth_day income_type address phone_number name job location vn_id description) %>
+<div>
+  <h4>Import data</h4>
+  <%= form_tag import_customers_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import" %>
+  <% end %>
+</div>
+<table>
+  <thead>
+  <tr>
+    <th> index </th>
+    <% columns.each do |column| %>
+      <th><%= "#{column}" %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @customers.each_with_index do |customer, index| %>
+    <tr>
+      <td><%= index %></td>
+      <% columns.each do |column| %>
+        <th><%= eval("customer.#{column}") %></th>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

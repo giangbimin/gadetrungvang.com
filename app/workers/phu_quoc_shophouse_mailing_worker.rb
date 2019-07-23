@@ -5,7 +5,7 @@ class PhuQuocShophouseMailingWorker
 
   def perform(batch_size = 50)
     # destroy_jobs
-    RedisMailerRunner.new(PLAN_NAME, batch_size).send_phu_quoc_plan
+    RedisMailerRunner.new(PLAN_NAME).send_phu_quoc_plan(batch_size)
   end
 
   def destroy_jobs

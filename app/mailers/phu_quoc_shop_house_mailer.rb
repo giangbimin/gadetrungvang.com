@@ -1,5 +1,5 @@
 class PhuQuocShopHouseMailer < ApplicationMailer
-  default from: 'grandworld@gadetrungvang.com'
+  default from: 'dungpham@gadetrungvang.com'
 
   def sent_email_to(user_email)
     text_plan = PhuQuocShopHouse::TEXT_PLAN
