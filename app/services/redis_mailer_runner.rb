@@ -2,7 +2,7 @@ require 'csv'
 class RedisMailerRunner
 
   def initialize(plan_name)
-    @plan_name = "user_track_emails_#{plan_name.downcase.gsub(" ", "_")}"
+    @plan_name = "user_track_emails_" + plan_name.downcase.gsub(" ", "_")
   end
 
   def import_email_from_csv
@@ -49,29 +49,27 @@ class RedisMailerRunner
     $redis.zadd("tracking_of_" + @plan_name, 0, email)
   end
 
-  private
-
-    def clean_csv
-      file_name = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
-      possible_emails = []
-      CSV.foreach(file_name, headers: true) do |row|
-        user_email = row['email'].to_s
-        begin
-          possible_emails << user_email if EmailVerifier.check(user_email)
-        rescue
-          next
-        end
+  def clean_csv
+    file_name = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
+    possible_emails = []
+    CSV.foreach(file_name, headers: true) do |row|
+      user_email = row['email'].to_s
+      begin
+        possible_emails << user_email if EmailVerifier.check(user_email)
+      rescue
+        p "#{@plan_name} EmailVerifier false"
+        next
       end
-      p "possible_email generated"
-      CSV.open(File.join(Rails.root, 'app', 'csv', "#{@plan_name}_possible_email.csv"), "wb") do |csv|
-        csv << ["email"]
-        possible_emails.each do |email|
-          csv << [email]
-        end
-      end
-      p "#{@plan_name}_possible_email.csv created"
     end
-
+    p "possible_email generated"
+    CSV.open(File.join(Rails.root, 'app', 'csv', "#{@plan_name}_possible_email.csv"), "wb") do |csv|
+      csv << ["email"]
+      possible_emails.each do |email|
+        csv << [email]
+      end
+    end
+    p "#{@plan_name}_possible_email.csv created"
+  end
 end
 
 # https://www.rubydoc.info/github/ezmobius/redis-rb/Redis
