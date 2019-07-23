@@ -1,6 +1,4 @@
 class PhuQuocEmailMarketingsController < ApiController
-  skip_before_action :verify_authenticity_token
-
   def send_email
     batch_size = params[:batch_size].to_i
     if batch_size > 0
@@ -32,4 +30,10 @@ class PhuQuocEmailMarketingsController < ApiController
     json_response({ message: 'ok' }, :ok)
   end
 
+
+  def track
+    email = params[:email]
+    RedisMailerRunner.add_tracking_email(email) if email
+    head :ok
+  end
 end

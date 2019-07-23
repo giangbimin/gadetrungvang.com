@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
   resource :phu_quoc_email_marketing, only: [] do
     get :send_email
+    get :track
     post :bounce
   end
 end

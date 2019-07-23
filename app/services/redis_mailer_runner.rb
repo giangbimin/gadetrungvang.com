@@ -29,6 +29,10 @@ class RedisMailerRunner
       delay += 30
     end
   end
+
+  def self.add_tracking_email(email)
+    $redis.zadd("tracking_of_" + @plan_name, 0, email)
+  end
 end
 
 # https://www.rubydoc.info/github/ezmobius/redis-rb/Redis

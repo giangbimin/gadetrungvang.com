@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
-  protect_from_forgery with: :exception
   rescue_from ArgumentError do |error|
     render_error_response(error.message, :unprocessable_entity)
   end
