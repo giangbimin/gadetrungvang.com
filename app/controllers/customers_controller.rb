@@ -4,7 +4,7 @@ class CustomersController < ApplicationController
   end
 
   def import
-    Customer.import_file params[:file]
+    CustomerImport.new(params[:file]).perform
     redirect_to customers_path, notice: "Data imported"
   end
 end
