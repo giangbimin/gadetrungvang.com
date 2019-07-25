@@ -10,12 +10,21 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 set :keep_releases, 3
 
 namespace :sidekiq do
+
+  task :start do
+    on roles(:app) do
+      within current_path do
+        execute :bundle, "exec sidekiq -d -L log/sidekiq.log -C config/sidekiq.yml -e production"
+      end
+    end
+  end
+
   task :restart do
     invoke 'sidekiq:stop'
     invoke 'sidekiq:start'
   end
 
-  before 'deploy:finished', 'sidekiq:restart'
+  before 'deploy:finished', 'sidekiq:start'
 
   task :stop do
     on roles(:app) do
@@ -25,15 +34,8 @@ namespace :sidekiq do
       end
     end
   end
-
-  task :start do
-    on roles(:app) do
-      within current_path do
-        execute :bundle, "exec sidekiq -e #{fetch(:stage)} -C config/sidekiq.yml -d"
-      end
-    end
-  end
 end
+
 
 # Optionally, you can symlink your database.yml and/or secrets.yml file from the shared directory during deploy
 # This is useful if you don't want to use ENV variables
