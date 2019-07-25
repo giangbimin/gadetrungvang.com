@@ -36,6 +36,16 @@ namespace :sidekiq do
   end
 end
 
+# namespace :foreman do
+#   task :start do
+#     on roles(:app) do
+#       within current_path do
+#         execute :bundle, "exec foreman start"
+#       end
+#     end
+#   end
+#   before 'deploy:finished', 'foreman:start'
+# end
 
 # Optionally, you can symlink your database.yml and/or secrets.yml file from the shared directory during deploy
 # This is useful if you don't want to use ENV variables
