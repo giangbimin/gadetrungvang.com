@@ -42,8 +42,7 @@ module Gadetrungvang
     # Set Sidekiq as the back-end for Active Job.
     config.assets.enabled = false
     config.active_job.queue_adapter = :sidekiq
-    config.active_job.queue_name_prefix =
-      "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{Rails.env}"
+    config.active_job.queue_name_prefix = "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{Rails.env}_default"
     # Action Cable setting to de-couple it from the main Rails process.
     config.action_cable.url = ENV['ACTION_CABLE_FRONTEND_URL']
   end

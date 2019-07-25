@@ -1,7 +1,7 @@
 class PhuQuocShophouseMailingWorker
   include Sidekiq::Worker
   PLAN_NAME = "phu_quoc_shophouse"
-  sidekiq_options queue: "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{PLAN_NAME}_#{ENV['RAILS_ENV']}_mailers"
+  sidekiq_options queue: "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{ENV['RAILS_ENV']}_mailers"
 
   def perform(batch_size = 50)
     # destroy_jobs
