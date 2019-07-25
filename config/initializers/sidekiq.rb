@@ -15,3 +15,5 @@ if defined?(PhusionPassenger)
     end if forked
   end
 end
+
+Sidekiq::Extensions.enable_delay!
