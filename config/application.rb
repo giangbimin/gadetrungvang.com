@@ -9,10 +9,11 @@ Dotenv::Railtie.load
 
 module Gadetrungvang
   class Application < Rails::Application
+    config.log_level = :info
+    config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT))
+    config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
-
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -45,5 +46,6 @@ module Gadetrungvang
     config.active_job.queue_name_prefix = "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{Rails.env}_default"
     # Action Cable setting to de-couple it from the main Rails process.
     config.action_cable.url = ENV['ACTION_CABLE_FRONTEND_URL']
+
   end
 end
