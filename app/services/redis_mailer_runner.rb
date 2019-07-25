@@ -2,17 +2,17 @@ require 'csv'
 class RedisMailerRunner
 
   def initialize(plan_name)
-    @plan_name = "user_track_emails_" + plan_name.downcase.gsub(" ", "_")
+    @plan_name = "campagn_" + plan_name.downcase.gsub(" ", "_")
   end
 
   def import_email_from_csv
     clean_csv
-    if File.exist?(File.join(Rails.root, 'app', 'csv', "#{@plan_name}_possible_email.csv"))
+    if File.exist?(File.join(Rails.root, 'app', 'csv', "#{@plan_name}_emails.csv"))
       is_validate = true
-      file_name = File.join(Rails.root, 'app', 'csv', "#{@plan_name}_possible_email.csv")
+      file_name = File.join(Rails.root, 'app', 'csv', "#{@plan_name}_emails.csv")
     else
       is_validate = false
-      file_name = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
+      file_name = File.join(Rails.root, 'app', 'csv', 'data_email_not_filtered.csv')
     end
     CSV.foreach(file_name, headers: true) do |row|
       user_email = row['email'].to_s
@@ -62,13 +62,42 @@ class RedisMailerRunner
       end
     end
     p "possible_email generated"
-    CSV.open(File.join(Rails.root, 'app', 'csv', "#{@plan_name}_possible_email.csv"), "wb") do |csv|
+    CSV.open(File.join(Rails.root, 'app', 'csv', "campagn_#{@plan_name}_emails.csv"), "wb") do |csv|
       csv << ["email"]
       possible_emails.each do |email|
         csv << [email]
       end
     end
-    p "#{@plan_name}_possible_email.csv created"
+    p "#{@plan_name}_emails.csv created"
+  end
+
+  def self.new_clean_csv
+    CSV.open(File.join(Rails.root, 'app', 'csv', "emails_verified.csv"), "wb") do |csv|
+      csv << ["email"]
+      old_emails_file = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
+      old_emails_sheet = Roo::Spreadsheet.open(old_emails_file)
+      last_loop = old_emails_sheet.last_row / 10
+      threads = (0..10).map do |thread_index|
+        Thread.new(thread_index) do |thread_index|
+          (0..last_loop).each do |loop_page|
+            sheet_index = loop_page * 10 + thread_index
+            if old_emails_sheet.row(sheet_index).present? && sheet_index > 1
+              begin
+                if EmailVerifier.check(old_emails_sheet.row(sheet_index)[0])
+                  csv << old_emails_sheet.row(sheet_index)
+                else
+                  p "Verifier false"
+                end
+              rescue
+                p "can't Verifier"
+                next
+              end
+            end
+          end
+        end
+      end
+      threads.each {|t| t.join}
+    end
   end
 end
 

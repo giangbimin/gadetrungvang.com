@@ -9,4 +9,15 @@ class EmailMarketingsController < ApiController
       json_response({ message: 'params errors' }, :unprocessable_entity)
     end
   end
+
+  def clean_csv
+    file_data = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
+    if File.exist?(file_data)
+      json_response({ message: 'file_data exist' }, :unprocessable_entity)
+    else
+      EmailCrawlerWorker.perform_async
+      json_response({ message: 'ok' }, :ok)
+    end
+  end
+
 end
