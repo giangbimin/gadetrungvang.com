@@ -4,8 +4,6 @@ class EmailChecking
   def initialize(email)
     Truemail.configure do |config|
       config.verifier_email = 'verifier@example.com'
-      config.whitelisted_domains = ['gmail.com', 'yahoo.com', 'yahoo.com.vn']
-      config.blacklisted_domains = ['10minutesmail.com']
       config.validation_type_for = { 'somedomain.com' => :mx }
       config.smtp_safe_check = true
     end
@@ -31,10 +29,11 @@ class EmailChecking
         Thread.new(thread_index) do |thread_index|
           (0..last_loop).each do |loop_page|
             sheet_index = loop_page * 10 + thread_index
-            if old_emails_sheet.row(sheet_index).present? && sheet_index > 1
+            if old_emails_sheet.row(sheet_index)[0].present? && sheet_index > 1
               begin
                 p "#{sheet_index} #{old_emails_sheet.row(sheet_index)}"
                 if EmailChecking.check(old_emails_sheet.row(sheet_index)[0])
+                  p "Verifier ok"
                   csv << old_emails_sheet.row(sheet_index)
                 else
                   p "Verifier false"
