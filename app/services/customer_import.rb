@@ -46,7 +46,8 @@ class CustomerImport
     if email.present?
       begin
         return_flag = false unless EmailVerifier.check(email)
-      rescue
+      rescue => err
+        p err
         return_flag = false
       end
     end

@@ -39,7 +39,7 @@ class PhuQuocShopHouse
   def self.send_marketing_email_with_data_from_csv(from_line, to_line)
     campaign_name = PhuQuocShopHouse::CAMPAGN_NAME
     text_content = PhuQuocShopHouse::TEXT_PLAN
-    file_name = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
+    file_name = File.join(Rails.root, 'public', 'csv', 'data_email_phuquoc.csv')
     count = 0
     CSV.foreach(file_name, headers: true) do |row|
       count += 1

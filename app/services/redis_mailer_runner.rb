@@ -6,21 +6,30 @@ class RedisMailerRunner
   end
 
   def import_email_from_csv
-    clean_csv
-    if File.exist?(File.join(Rails.root, 'app', 'csv', "#{@plan_name}_emails.csv"))
-      is_validate = true
-      file_name = File.join(Rails.root, 'app', 'csv', "#{@plan_name}_emails.csv")
+    EmailVerified.clean_csv(@plan_name)
+    if File.exist?(File.join(Rails.root, 'public', 'csv', "#{@plan_name}_emails.csv"))
+      is_validated = true
+      file_name = File.join(Rails.root, 'public', 'csv', "#{@plan_name}_emails.csv")
     else
-      is_validate = false
-      file_name = File.join(Rails.root, 'app', 'csv', 'data_email_not_filtered.csv')
+      is_validated = false
+      file_name = File.join(Rails.root, 'public', 'csv', 'data_email_not_filtered.csv')
     end
     CSV.foreach(file_name, headers: true) do |row|
       user_email = row['email'].to_s
       $redis.zadd(@plan_name, 0, user_email)
-      if is_validate
+      if is_validated
         $redis.zadd(@plan_name, 0, user_email)
-      elsif EmailVerifier.check(user_email)
-        $redis.zadd(@plan_name, 0, user_email)
+      else
+        begin
+          if EmailVerifier.check(user_email)
+            $redis.zadd(@plan_name, 0, user_email)
+          else
+            p "Verifier false"
+          end
+        rescue => err
+          p "can't Verifier by #{err}"
+          next
+        end
       end
     end
     p "import_completed"
@@ -47,57 +56,6 @@ class RedisMailerRunner
 
   def self.add_tracking_email(email)
     $redis.zadd("tracking_of_" + @plan_name, 0, email)
-  end
-
-  def clean_csv
-    file_name = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
-    possible_emails = []
-    CSV.foreach(file_name, headers: true) do |row|
-      user_email = row['email'].to_s
-      begin
-        possible_emails << user_email if EmailVerifier.check(user_email)
-      rescue
-        p "#{@plan_name} EmailVerifier false"
-        next
-      end
-    end
-    p "possible_email generated"
-    CSV.open(File.join(Rails.root, 'app', 'csv', "campagn_#{@plan_name}_emails.csv"), "wb") do |csv|
-      csv << ["email"]
-      possible_emails.each do |email|
-        csv << [email]
-      end
-    end
-    p "#{@plan_name}_emails.csv created"
-  end
-
-  def self.new_clean_csv
-    CSV.open(File.join(Rails.root, 'app', 'csv', "emails_verified.csv"), "wb") do |csv|
-      csv << ["email"]
-      old_emails_file = File.join(Rails.root, 'app', 'csv', 'data_email_phuquoc.csv')
-      old_emails_sheet = Roo::Spreadsheet.open(old_emails_file)
-      last_loop = old_emails_sheet.last_row / 10
-      threads = (0..10).map do |thread_index|
-        Thread.new(thread_index) do |thread_index|
-          (0..last_loop).each do |loop_page|
-            sheet_index = loop_page * 10 + thread_index
-            if old_emails_sheet.row(sheet_index).present? && sheet_index > 1
-              begin
-                if EmailVerifier.check(old_emails_sheet.row(sheet_index)[0])
-                  csv << old_emails_sheet.row(sheet_index)
-                else
-                  p "Verifier false"
-                end
-              rescue
-                p "can't Verifier"
-                next
-              end
-            end
-          end
-        end
-      end
-      threads.each {|t| t.join}
-    end
   end
 end
 

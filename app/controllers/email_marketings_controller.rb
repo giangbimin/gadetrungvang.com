@@ -11,7 +11,7 @@ class EmailMarketingsController < ApiController
   end
 
   def clean_csv
-    file_data = File.join(Rails.root, 'app', 'csv', 'emails_verified.csv')
+    file_data = File.join(Rails.root, 'public', 'csv', 'emails_verified.csv')
     if File.exist?(file_data)
       json_response({ message: 'file_data exist' }, :unprocessable_entity)
     else
