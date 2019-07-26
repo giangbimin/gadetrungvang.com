@@ -24,7 +24,7 @@ class EmailChecking
     csv_name = plan_name.blank? ? "emails_verified" : "#{plan_name}_emails"
     CSV.open(File.join(Rails.root, 'public', 'csv', "#{csv_name}.csv"), "wb") do |csv|
       csv << ["email"]
-      old_emails_file = File.join(Rails.root, 'public', 'csv', 'data_email_phuquoc.csv')
+      old_emails_file = File.join(Rails.root, 'public', 'csv', 'data_email_not_filtered.csv')
       old_emails_sheet = Roo::Spreadsheet.open(old_emails_file)
       last_loop = old_emails_sheet.last_row / 10
       threads = (0..10).map do |thread_index|
