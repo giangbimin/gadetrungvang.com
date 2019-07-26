@@ -6,7 +6,7 @@ class RedisMailerRunner
   end
 
   def import_email_from_csv
-    EmailVerified.clean_csv(@plan_name)
+    EmailChecking.clean_csv(@plan_name)
     if File.exist?(File.join(Rails.root, 'public', 'csv', "#{@plan_name}_emails.csv"))
       is_validated = true
       file_name = File.join(Rails.root, 'public', 'csv', "#{@plan_name}_emails.csv")
@@ -21,7 +21,7 @@ class RedisMailerRunner
         $redis.zadd(@plan_name, 0, user_email)
       else
         begin
-          if EmailVerifier.check(user_email)
+          if EmailChecking.check(user_email)
             $redis.zadd(@plan_name, 0, user_email)
           else
             p "Verifier false"

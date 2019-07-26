@@ -1,11 +1,23 @@
 require 'resolv'
-class EmailVerified
-  def self.validate_email_domain(email)
-    domain = email.match(/\@(.+)/)[1]
-    Resolv::DNS.open do |dns|
-      @mx = dns.getresources(domain, Resolv::DNS::Resource::IN::MX)
+require 'truemail'
+class EmailChecking
+  def initialize(email)
+    Truemail.configure do |config|
+      config.verifier_email = 'verifier@example.com'
+      config.whitelisted_domains = ['gmail.com', 'yahoo.com', 'yahoo.com.vn']
+      config.blacklisted_domains = ['10minutesmail.com']
+      config.validation_type_for = { 'somedomain.com' => :mx }
+      config.smtp_safe_check = true
     end
-    @mx.size > 0 ? true : false
+    @email = email
+  end
+  
+  def check
+    Truemail.valid?(@email)
+  end
+
+  def self.check(email)
+    EmailChecking.new(email).check
   end
 
   def self.clean_csv(plan_name = "")
@@ -22,7 +34,7 @@ class EmailVerified
             if old_emails_sheet.row(sheet_index).present? && sheet_index > 1
               begin
                 p "#{sheet_index} #{old_emails_sheet.row(sheet_index)}"
-                if EmailVerifier.check(old_emails_sheet.row(sheet_index)[0])
+                if EmailChecking.check(old_emails_sheet.row(sheet_index)[0])
                   csv << old_emails_sheet.row(sheet_index)
                 else
                   p "Verifier false"

@@ -51,7 +51,7 @@ class PhuQuocShopHouse
       to_email = row['email'].to_s
       retry_times = 2
       begin
-        email_verified = EmailVerifier.check(to_email)
+        email_verified = EmailChecking.check(to_email)
         if email_verified
           PhuQuocShopHouseMarketingMailer.sent_marketing_email(to_email, count, campaign_name, text_content).deliver_now
         else
