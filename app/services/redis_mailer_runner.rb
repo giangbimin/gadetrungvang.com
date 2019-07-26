@@ -1,7 +1,7 @@
 require 'csv'
 class RedisMailerRunner
 
-  def initialize(plan_name)
+  def initialize(plan_name = "default")
     @plan_name = "campagn_" + plan_name.downcase.gsub(" ", "_")
   end
 
@@ -54,8 +54,14 @@ class RedisMailerRunner
     end
   end
 
-  def self.add_tracking_email(email)
-    $redis.zadd("tracking_of_" + @plan_name, 0, email)
+  def add_tracking(email, request)
+    data_user = {
+      email: email,
+      ip: request.ip || "",
+      country: request.location.country || "",
+      city: request.location.city || ""
+    }
+    $redis.zadd("email_location_" + @plan_name, 0, data_user.to_json)
   end
 end
 
@@ -63,7 +69,7 @@ end
 # :with_scores => true: include scores in output
 # :limit => [offset, count]
 # $redis.keys
-# $redis.zrangebyscore(@plan_name, 0, 0, with_scores: true)
+# $redis.zrangebyscore("email_location_"+@plan_name, 0, 0, with_scores: true)
 # $redis.del(@plan_name)
 # $redis.zscore(@plan_name, email)
 # $redis.zrangebyscore(@plan_name, 0, 0)

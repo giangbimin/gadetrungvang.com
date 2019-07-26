@@ -19,5 +19,4 @@ class EmailMarketingsController < ApiController
       json_response({ message: 'ok' }, :ok)
     end
   end
-
 end

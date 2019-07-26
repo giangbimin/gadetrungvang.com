@@ -42,6 +42,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 gem 'truemail'
+gem 'geocoder'
 gem 'roo', '~> 2.8', '>= 2.8.2'
 gem 'activerecord-import', '~> 1.0', '>= 1.0.2'
 gem 'delayed_job', '~> 4.1', '>= 4.1.5'

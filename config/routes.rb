@@ -10,8 +10,11 @@ Rails.application.routes.draw do
 
   resource :phu_quoc_email_marketing, only: [] do
     get :send_email
-    get :track
+  end
+
+  resource :email_tracking, only: [] do
     post :bounce
+    get :track
   end
 
   resource :customers, only: [] do

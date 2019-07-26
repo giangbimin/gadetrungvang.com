@@ -1,5 +1,6 @@
 class PhuQuocShopHouse
-  CAMPAGN_NAME = 'Gửi Quý Khách bản thảo sơ bộ chương trình'.freeze
+  PLAN_NAME = "phu_quoc_shophouse"
+  MAIl_SUBJECT = 'Gửi Quý Khách bản thảo sơ bộ chương trình'.freeze
   TEXT_PLAN = 'Gửi Quý Khách bản thảo sơ bộ chương trình
   SHOP & CONDOTEL
   GRAND WORLD PHÚ QUỐC
@@ -34,34 +35,4 @@ class PhuQuocShopHouse
   CALL: 0918280511
   WEBSITE: https://gadetrungvang.com
   '.freeze
-  include Base
-
-  def self.send_marketing_email_with_data_from_csv(from_line, to_line)
-    campaign_name = PhuQuocShopHouse::CAMPAGN_NAME
-    text_content = PhuQuocShopHouse::TEXT_PLAN
-    file_name = File.join(Rails.root, 'public', 'csv', 'data_email_phuquoc.csv')
-    count = 0
-    CSV.foreach(file_name, headers: true) do |row|
-      count += 1
-      next if count < from_line || count > to_line
-      puts 'exec line'
-      puts '>>>>>>'
-      puts count
-      puts '>>>>>>'
-      to_email = row['email'].to_s
-      retry_times = 2
-      begin
-        email_verified = EmailChecking.check(to_email)
-        if email_verified
-          PhuQuocShopHouseMarketingMailer.sent_marketing_email(to_email, count, campaign_name, text_content).deliver_now
-        else
-          next
-        end
-        retry_times -= 1
-      rescue
-        retry if retry_times > 0
-        next
-      end
-    end
-  end
 end

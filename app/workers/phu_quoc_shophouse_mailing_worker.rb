@@ -1,6 +1,6 @@
 class PhuQuocShophouseMailingWorker
   include Sidekiq::Worker
-  PLAN_NAME = "phu_quoc_shophouse"
+  PLAN_NAME = PhuQuocShopHouse::PLAN_NAME
   sidekiq_options queue: "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{ENV['RAILS_ENV']}_mailers"
 
   def perform(batch_size = 50)
