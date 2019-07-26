@@ -25,6 +25,7 @@ class EmailChecking
       old_emails_file = File.join(Rails.root, 'public', 'csv', 'data_email_not_filtered.csv')
       old_emails_sheet = Roo::Spreadsheet.open(old_emails_file)
       last_loop = old_emails_sheet.last_row / 10
+      sheet_index = Mutex.new
       threads = (0..10).map do |thread_index|
         Thread.new(thread_index) do |thread_index|
           (0..last_loop).each do |loop_page|
