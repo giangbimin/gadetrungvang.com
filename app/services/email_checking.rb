@@ -19,7 +19,9 @@ class EmailChecking
   end
 
   def self.clean_csv(plan_name = "")
-    csv_name = plan_name.blank? ? "emails_verified" : "#{plan_name}_emails"
+    csv_name = plan_name.blank? ? "emails_verified_temp" : "#{plan_name}_emails"
+    completed_csv = File.join(Rails.root, 'public', 'csv', 'emails_verified.csv')
+    temp_csv = File.join(Rails.root, 'public', 'csv', 'emails_verified_temp.csv')
     CSV.open(File.join(Rails.root, 'public', 'csv', "#{csv_name}.csv"), "wb") do |csv|
       csv << ["email"]
       old_emails_file = File.join(Rails.root, 'public', 'csv', 'data_email_not_filtered.csv')
@@ -50,7 +52,9 @@ class EmailChecking
       end
       threads.each {|t| t.join}
     end
+    CSV.open(completed_csv, 'w') do |csv|
+      CSV.read(temp_csv).uniq.each { |r| csv << r }
+    end
+    File.delete(temp_csv) if File.exist?(temp_csv)
   end
 end
-
-
