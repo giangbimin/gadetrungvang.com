@@ -5,7 +5,7 @@ class EmailTrackingsController < ApplicationController
     RedisMailerRunner.new(plan_name).add_tracking(email, request) if email
     send_file 'public/gadetrungvang.png', type: 'image/png'
   end
-  
+
   def bounce
     json = JSON.parse(request.raw_post)
     logger.info "bounce callback from AWS with #{json}"

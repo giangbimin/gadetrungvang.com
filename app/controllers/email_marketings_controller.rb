@@ -1,10 +1,11 @@
 class EmailMarketingsController < ApiController
   def send_email
-    params[:plan_id]
     plan = MarketingPlan.find_by(id: params[:plan_id])
+    plan = MarketingPlan.find_by(name: params[:plan_name]) if plan.blank?
     file = File.join(Rails.root, 'public', 'csv', "#{params[:file_name]}.csv")
-    if File.exist?(file) && plan
+    if File.exist?(file) && plan.present?
       EmailByCsvWorker.perform_async(file, plan)
+      json_response({ message: 'ok' }, :ok)
     else
       json_response({ message: 'error params' }, :unprocessable_entity)
     end
