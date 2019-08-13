@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  resources :marketing_plans
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 

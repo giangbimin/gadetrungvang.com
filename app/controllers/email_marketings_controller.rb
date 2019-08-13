@@ -1,12 +1,12 @@
 class EmailMarketingsController < ApiController
   def send_email
-    from_line = params[:from_line].to_i
-    to_line = params[:to_line].to_i
-    if to_line > 0 && from_line < to_line
-      PhuQuocMailingWorker.perform_async(from_line, to_line)
-      json_response({ message: 'ok' }, :ok)
+    params[:plan_id]
+    plan = MarketingPlan.find_by(id: params[:plan_id])
+    file = File.join(Rails.root, 'public', 'csv', "#{params[:file_name]}.csv")
+    if File.exist?(file) && plan
+      EmailByCsvWorker.perform_async(file, plan)
     else
-      json_response({ message: 'params errors' }, :unprocessable_entity)
+      json_response({ message: 'error params' }, :unprocessable_entity)
     end
   end
 

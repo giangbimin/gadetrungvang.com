@@ -38,7 +38,7 @@ module Gadetrungvang
     config.action_mailer.perform_deliveries = true
 
     # Set Redis as the back-end for the cache.
-    config.cache_store = :redis_store, ENV['REDIS_CACHE_URL'], {expires_in: 30.days}
+    config.cache_store = :redis_store, ENV['REDIS_CACHE_URL']
 
     # Set Sidekiq as the back-end for Active Job.
     config.assets.enabled = false

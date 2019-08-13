@@ -55,13 +55,16 @@ class RedisMailerRunner
   end
 
   def add_tracking(email, request)
+    country = request&.location&.country || ""
+    city = request.location.city || ""
     data_user = {
       email: email,
-      ip: request.ip || "",
-      country: request.location.country || "",
-      city: request.location.city || ""
+      ip: request.ip,
+      country: country,
+      city: city
     }
     $redis.zadd("email_location_" + @plan_name, 0, data_user.to_json)
+    Customer.create(email: email, location: country, address: city) if Customer.where(email: email).size == 0
   end
 end
 

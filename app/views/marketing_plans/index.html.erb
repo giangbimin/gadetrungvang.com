@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Marketing Plans</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Plan name</th>
+      <th>Subject</th>
+      <th>Html plain</th>
+      <th>Text plain</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @marketing_plans.each do |marketing_plan| %>
+      <tr>
+        <td><%= marketing_plan.plan_name %></td>
+        <td><%= marketing_plan.subject %></td>
+        <td><%= marketing_plan.html_plain %></td>
+        <td><%= marketing_plan.text_plain %></td>
+        <td><%= link_to 'Show', marketing_plan %></td>
+        <td><%= link_to 'Edit', edit_marketing_plan_path(marketing_plan) %></td>
+        <td><%= link_to 'Destroy', marketing_plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Marketing Plan', new_marketing_plan_path %>

@@ -1,0 +1,2 @@
+class MarketingPlan < ApplicationRecord
+end
