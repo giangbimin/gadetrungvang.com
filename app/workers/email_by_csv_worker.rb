@@ -4,6 +4,7 @@ class EmailByCsvWorker
 
   def perform(csv, plan)
     emails_sheet = Roo::Spreadsheet.open(csv)
+
     last_loop = emails_sheet.last_row / 10
     sheet_index = Mutex.new
     emails = []
@@ -14,11 +15,11 @@ class EmailByCsvWorker
           if emails_sheet.row(sheet_index)[0].present? && sheet_index > 1
             begin
               p "#{sheet_index} #{emails_sheet.row(sheet_index)}"
-              if EmailChecking.check(emails_sheet.row(sheet_index)[0])
-                emails << emails_sheet.row(sheet_index)[0]
-              else
-                p "Verifier false"
-              end
+              # if EmailChecking.check(emails_sheet.row(sheet_index)[0])
+              emails << emails_sheet.row(sheet_index)[0]
+              # else
+              #   p "Verifier false"
+              # end
             rescue => err
               p "can't Verifier"
               p err
