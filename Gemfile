@@ -50,10 +50,10 @@ gem 'delayed_job', '~> 4.1', '>= 4.1.5'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1', require: true
 
-gem 'capistrano', '~> 3.11'
-gem 'capistrano-rails', '~> 1.4'
-gem 'capistrano-passenger', '~> 0.2.0'
-gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
+# gem 'capistrano', '~> 3.11'
+# gem 'capistrano-rails', '~> 1.4'
+# gem 'capistrano-passenger', '~> 0.2.0'
+# gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
 # gem 'mina', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
