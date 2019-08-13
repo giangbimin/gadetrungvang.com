@@ -16,8 +16,9 @@ gem 'clockwork', '~> 2.0', '>= 2.0.3'
 
 gem 'sidekiq', '~> 5.1'
 # Use passenger as the app server
-gem 'passenger', '~> 6.0', '>= 6.0.2', require: 'phusion_passenger/rack_handler'
+# gem 'passenger', '~> 6.0', '>= 6.0.2', require: 'phusion_passenger/rack_handler'
 gem 'foreman'
+gem 'puma'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
