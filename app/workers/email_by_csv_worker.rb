@@ -1,6 +1,6 @@
 class EmailByCsvWorker
   include Sidekiq::Worker
-  sidekiq_options queue: "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{ENV['RAILS_ENV']}_mailer"
+  sidekiq_options queue: "#{ENV['ACTIVE_JOB_QUEUE_PREFIX']}_#{ENV['RAILS_ENV']}_mailers"
 
   def perform(csv, plan)
     emails_sheet = Roo::Spreadsheet.open(csv)
