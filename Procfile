@@ -1,2 +1,2 @@
-web: bundle exec passenger start
+web: rails server
 worker: bundle exec sidekiq -d -L log/sidekiq.log -C config/sidekiq.yml -e production
