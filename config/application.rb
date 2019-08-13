@@ -25,7 +25,7 @@ module Gadetrungvang
     # Action mailer settings.
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address: ENV['AWS_SES_SMTP_ADDRESS'],
+      address: ENV['AWS_SES_ADDRESS'],
       port: ENV['AWS_SES_SMTP_PORT'].to_i,
       enable_starttls_auto: ENV['AWS_SES_SMTP_ENABLE_STARTTLS_AUTO'] == 'true',
       user_name: ENV['AWS_SES_NAME'],
