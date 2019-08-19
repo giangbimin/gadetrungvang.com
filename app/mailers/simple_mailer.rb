@@ -21,3 +21,5 @@ class SimpleMailer < ActionMailer::Base
     end
   end
 end
+
+ # SimpleMailer.mail_to("st-3-3auqfz4npu@glockapps.com", marketing_plan).deliver_now
